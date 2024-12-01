@@ -50,22 +50,30 @@ const Chat = ({ route, navigation }) => {
     }
 
     return (
-        <GiftedChat
-            messages={messages}
-            renderBubble={renderBubble}
-            onSend={messages => onSend(messages)}
-            user={{
-                _id: 1
-            }}
-        />
+        <View style={styles.container}>
+            <View style={{ backgroundColor: backgroundColor, flex: 1 }}>
+                <GiftedChat
+                    messages={messages}
+                    onSend={onSend}
+                    user={{
+                        _id: 1,
+                    }}
+                    renderBubble={renderBubble}
+                    alwaysShowSend={true}
+                    textInputStyle={{ backgroundColor: "#FFF" }}
+                    keyboardVerticalOffset={100} 
+                />
+                {Platform.OS === "android" || Platform.OS === 'ios' ? (
+                    <KeyboardAvoidingView behavior="height" />
+                ) : null}
+            </View>
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
     }
 });
 
