@@ -5,7 +5,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { LogBox, Alert } from 'react-native';
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { getAnalytics } from "firebase/analytics";
+import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
+import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 
 LogBox.ignoreAllLogs();
 LogBox.ignoreLogs(["AsyncStorage has been extracted from"]);
@@ -25,7 +26,11 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-const analytics = getAnalytics(app);
+const auth = initializeAuth(app, {
+  persistence: getReactNativePersistence(ReactNativeAsyncStorage)
+});
+
+export { auth };
 
 const App = () => {
   return (
@@ -36,11 +41,12 @@ const App = () => {
         <Stack.Screen
           name="Start"
           component={Start}
+          initialParam={{ db: db }}
         />
         <Stack.Screen
-          name="Chat"
-          component={Chat}
-        />
+          name="Chat">
+          {(props) => <Chat db={db} {...props}/>}
+        </Stack.Screen>
       </Stack.Navigator>  
     </NavigationContainer>
   );

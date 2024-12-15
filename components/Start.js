@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { StyleSheet, View, Text, TextInput, ImageBackground, TouchableOpacity, Alert } from 'react-native';
 import { getAuth, signInAnonymously } from 'firebase/auth';
 
-const Start = ({ navigation }) => {
+const Start = ({ navigation, db }) => {
     const [name, setName] = useState('');
     const [backgroundColor, setBackgroundColor] = useState("");
     const colors = ["#090C08", "#474056", "#8A95A5", "#B9C6AE"];
@@ -10,7 +10,7 @@ const Start = ({ navigation }) => {
     const signInUser = () => {
         signInAnonymously(auth)
             .then(result => {
-                navigation.navigate("Chat", { userID: result.user.uid, name: name, background: background });
+                navigation.navigate("Chat", { userID: result.user.uid, name: name, background: backgroundColor, db: db });
                 Alert.alert("Signed in Successfully!");
             })
             .catch((error) => {

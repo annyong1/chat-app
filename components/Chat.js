@@ -4,11 +4,11 @@ import { StyleSheet, View, Text, KeyboardAvoidingView, Platform } from 'react-na
 import { Bubble, GiftedChat } from 'react-native-gifted-chat';
 
 const Chat = ({ db, route, navigation }) => {
-    const { name, backgroundColor, userID } = route.params;
+    const { name, background, userID } = route.params;
     const [messages, setMessages] = useState([]);
 
     useEffect(() => {
-        navigation.setOptions({ title: name, color: backgroundColor });
+        navigation.setOptions({ title: name, color: background });
         const q = query(collection(db, "messages"), orderBy("createdAt", "desc"));
         const unsubMessages = onSnapshot(q, (docs) => {
             let newMessages = [];
@@ -16,7 +16,7 @@ const Chat = ({ db, route, navigation }) => {
                 newMessages.push({
                     id: doc.id,
                     ...doc.data(),
-                    createdAt: new Date(doc.data().createdAt.toMilis
+                    createdAt: new Date(doc.data().createdAt.toMillis
                         ())
                 })
             })
@@ -48,7 +48,7 @@ const Chat = ({ db, route, navigation }) => {
 
     return (
         <View style={styles.container}>
-            <View style={{ backgroundColor: backgroundColor, flex: 1 }}>
+            <View style={{ backgroundColor: background, flex: 1 }}>
                 <GiftedChat
                     messages={messages}
                     onSend={(messages) => onSend(messages)}
