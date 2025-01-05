@@ -9,6 +9,7 @@ import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 import { useNetInfo } from '@react-native-community/netinfo';
 import { useEffect } from 'react';
+import { getStorage } from "firebase/storage";
 
 LogBox.ignoreAllLogs();
 LogBox.ignoreLogs(["AsyncStorage has been extracted from"]);
@@ -28,6 +29,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const storage = getStorage(app);
 const auth = initializeAuth(app, {
   persistence: getReactNativePersistence(ReactNativeAsyncStorage)
 });
@@ -58,7 +60,11 @@ const App = () => {
         />
         <Stack.Screen
           name="Chat">
-          {props => <Chat isConnected={connectionStatus.isConnected} db={db} {...props} />}
+          {props => <Chat
+            isConnected={connectionStatus.isConnected}
+            db={db}
+            storage={storage}
+            {...props} />}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
