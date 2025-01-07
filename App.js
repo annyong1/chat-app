@@ -14,29 +14,32 @@ import { getStorage } from "firebase/storage";
 LogBox.ignoreAllLogs();
 LogBox.ignoreLogs(["AsyncStorage has been extracted from"]);
 
-const Stack = createNativeStackNavigator();
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBKPMJirP45PBUxW0-nGJnFniTsEXlv0sY",
-  authDomain: "chat-app-db-59d7d.firebaseapp.com",
-  projectId: "chat-app-db-59d7d",
-  storageBucket: "chat-app-db-59d7d.firebasestorage.app",
-  messagingSenderId: "755687679752",
-  appId: "1:755687679752:web:be17188735ace1ea9beebd",
-  measurementId: "G-7L8QECQ8CR"
-};
+//const auth = initializeAuth(app, {
+//persistence: getReactNativePersistence(ReactNativeAsyncStorage)
+//});
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const storage = getStorage(app);
-const auth = initializeAuth(app, {
-  persistence: getReactNativePersistence(ReactNativeAsyncStorage)
-});
-
-export { auth };
+//export { auth };
 
 const App = () => {
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBKPMJirP45PBUxW0-nGJnFniTsEXlv0sY",
+    authDomain: "chat-app-db-59d7d.firebaseapp.com",
+    projectId: "chat-app-db-59d7d",
+    storageBucket: "chat-app-db-59d7d.firebasestorage.app",
+    messagingSenderId: "755687679752",
+    appId: "1:755687679752:web:be17188735ace1ea9beebd",
+    measurementId: "G-7L8QECQ8CR"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const storage = getStorage(app);
+
+  const Stack = createNativeStackNavigator();
+
   const connectionStatus = useNetInfo();
 
   useEffect(() => {
